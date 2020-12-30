@@ -6,6 +6,7 @@ services:
       - ./web:/var/www/html
     ports:
       - 8081:8081
+      #- 9003:9003
       #- 3000:3000
 
   database:
