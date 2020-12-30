@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+/** TODO info, xdebugは確認用の為、削除する必要あり */
+Route::get('info', function () {
+    phpinfo();
+});
+
+Route::get('xdebug', function () {
+    xdebug_info();
+});
