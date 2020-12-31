@@ -6,8 +6,10 @@ services:
       - ./web:/var/www/html
     ports:
       - 8081:8081
-      #- 9003:9003
       #- 3000:3000
+      - 9003:9003
+    extra_hosts:
+      - "host.docker.internal:172.101.0.1"
 
   database:
     image: postgres:11-alpine
@@ -18,3 +20,10 @@ services:
       - ./database:/var/lib/postgresql/data
     ports:
       - 5434:5432
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.101.0.0/16

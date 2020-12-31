@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    public function register(array $params)
+    /**
+     * @param array $params
+     * @return User|bool
+     */
+    public function register(array $params): User|bool
     {
         try {
             DB::beginTransaction();
@@ -17,14 +21,15 @@ class UserService
             $user->password = Hash::make($params['password']);
             $user->email = $params['email'];
             $user->name = $params['name'];
-            return $user->save();
+            $user->save();
 
             DB::commit();
+            return $user;
         } catch (Exception $e) {
             DB::rollBack();
 
             return false;
         }
-        
+
     }
 }
