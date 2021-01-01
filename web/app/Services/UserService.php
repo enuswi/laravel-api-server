@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +11,9 @@ class UserService
 {
     /**
      * UserService constructor.
-     * @param UserRepository $repository
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(protected UserRepository $repository)
+    public function __construct(protected UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

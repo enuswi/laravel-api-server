@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-class UserRepository extends AbstractRepository
+class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     /**
      * UserRepository constructor.
