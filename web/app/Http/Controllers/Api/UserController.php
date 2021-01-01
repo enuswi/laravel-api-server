@@ -80,7 +80,7 @@ class UserController extends Controller
     public function register(Request $request): string|bool
     {
         if ($response = $this->userService->register($request->all())) {
-            return json_encode(['status' => true]);
+            return json_encode(['status' => true, 'data' => $response]);
         }
         return json_encode(['status' => false]);
     }

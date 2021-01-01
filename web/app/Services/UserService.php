@@ -5,14 +5,15 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class UserService
 {
     /**
      * @param array $params
-     * @return User|bool
      */
-    public function register(array $params): User|bool
+    public function register(array $params)
     {
         try {
             DB::beginTransaction();
@@ -22,12 +23,16 @@ class UserService
             $user->email = $params['email'];
             $user->name = $params['name'];
             $user->save();
-
             DB::commit();
-            return $user;
-        } catch (Exception $e) {
-            DB::rollBack();
 
+            // accessTokenの作成
+            $token = $user->createToken($user->id);
+            $token->accessToken->id;
+
+            return $user;
+        } catch (Exception|GuzzleException $e) {
+            DB::rollBack();
+            \Log::info($e->getMessage());
             return false;
         }
 

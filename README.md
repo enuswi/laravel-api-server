@@ -40,3 +40,22 @@ $ docker-compose exec composer require "darkaonline/l5-swagger"
 ```.env
 L5_SWAGGER_GENERATE_ALWAYS=true
 ```
+
+## Passport
+
+```
+$ php artisan passport:install
+>
+Encryption keys already exist. Use the --force option to overwrite them.
+Personal access client created successfully.
+Client ID: 1
+Client secret: laq9PoT4WaPbE095KI9fUbOAebeFXZNsehINXsbu
+Password grant client created successfully.
+Client ID: 2
+Client secret: nLWw6zw05JDywE5p1neKgT7zruE2foDj4D4MFn1W
+```
+
+## Guzzle
+```
+$ composer require guzzlehttp/guzzle
+```
