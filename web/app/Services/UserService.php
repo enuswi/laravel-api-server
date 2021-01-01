@@ -3,7 +3,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -37,24 +37,46 @@ class UserService
                 'name' => $user->name,
                 'email' => $user->email
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             // TODO: ログ関連の処理をどこかにまとめたい
             \Log::info($e->getMessage());
-        } finally {
-            return false;
         }
+        return false;
     }
 
     /**
-     * TODO: トークン作成メソッドの分離
+     * ログイン
      * @param array $params
-     * @return mixed
+     * @return array|bool
      */
-    public function createToken(array $params)
+    public function login(array $params): array|bool
     {
-        $user = User::factory($params);
-        // accessTokenの作成
+        try {
+            if (!Auth::guard('web')->attempt($params)) {
+                throw new \Exception();
+            }
+
+            $user = Auth::guard('web')->user();
+            return [
+                'name' => $user->name,
+                'email' => $user->email,
+                'access_token' => $this->createToken($user),
+            ];
+        } catch (\Exception $e) {
+            // TODO: ログ関連の処理をどこかにまとめたい
+            \Log::info($e->getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * accessTokenの作成
+     * @param User $user
+     * @return ?string
+     */
+    private function createToken(User $user): ?string
+    {
         $token = $user->createToken($user->id);
         return $token->token->id;
     }
