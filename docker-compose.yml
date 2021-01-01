@@ -6,10 +6,9 @@ services:
       - ./web:/var/www/html
     ports:
       - 8081:8081
-      #- 3000:3000
-      - 9003:9003
     extra_hosts:
-      - "host.docker.internal:172.101.0.1"
+      # 必要に応じて、IP確認 `ipconfig getifaddr en0`
+      - "host.docker.internal:192.168.100.165"
 
   database:
     image: postgres:11-alpine
@@ -21,9 +20,10 @@ services:
     ports:
       - 5434:5432
 
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.101.0.0/16
+#networks:
+#  default:
+#    driver: bridge
+#    ipam:
+#      config:
+#        #- subnet: 172.101.0.0/16
+#        - subnet: 192.168.100.0/16
