@@ -25,14 +25,11 @@ class RegisterApiTest extends TestCase
             'password_confirmation' => 'test1234',
         ];
 
-        //$response = $this->json('POST', route('api/v1/register'), $data);
         $response = $this->post('api/v1/register', $data);
 
         $user = User::first();
         $this->assertEquals($data['name'], $user->name);
 
-//        $response
-//            ->assertStatus(Response::HTTP_CREATED)
-//            ->assertJson(['name' => $user->name]);
+        $response->assertStatus(Response::HTTP_OK);
     }
 }

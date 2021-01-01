@@ -2,39 +2,60 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 
 class UserService
 {
     /**
-     * @param array $params
+     * UserService constructor.
+     * @param UserRepository $repository
      */
-    public function register(array $params)
+    public function __construct(protected UserRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * ユーザー作成
+     * @param array $params
+     * @return array|bool
+     */
+    public function register(array $params): array|bool
     {
         try {
             DB::beginTransaction();
 
-            $user = new User;
-            $user->password = Hash::make($params['password']);
-            $user->email = $params['email'];
-            $user->name = $params['name'];
-            $user->save();
+            $params['password'] = Hash::make($params['password']);
+            $user = $this->repository->create($params);
+
             DB::commit();
 
-            // accessTokenの作成
-            $token = $user->createToken($user->id);
-            $token->accessToken->id;
-
-            return $user;
-        } catch (Exception|GuzzleException $e) {
+            return [
+                'name' => $user->name,
+                'email' => $user->email
+            ];
+        } catch (Exception $e) {
             DB::rollBack();
+            // TODO: ログ関連の処理をどこかにまとめたい
             \Log::info($e->getMessage());
+        } finally {
             return false;
         }
+    }
 
+    /**
+     * TODO: トークン作成メソッドの分離
+     * @param array $params
+     * @return mixed
+     */
+    public function createToken(array $params)
+    {
+        $user = User::factory($params);
+        // accessTokenの作成
+        $token = $user->createToken($user->id);
+        return $token->token->id;
     }
 }

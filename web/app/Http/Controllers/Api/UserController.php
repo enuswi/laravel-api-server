@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\UserService;
-use Illuminate\Http\Request;
+use App\Http\Requests\RegisterUser;
+use Illuminate\Http\JsonResponse;
 
-class UserController extends Controller
+class UserController extends AbstractApiController
 {
     /**
      * UserController constructor.
@@ -18,8 +18,8 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return string|bool
+     * @param RegisterUser $request
+     * @return JsonResponse
      * @OA\Post(
      *   path="/api/v1/register",
      *   operationId="register",
@@ -77,11 +77,12 @@ class UserController extends Controller
      *   )
      * )
      */
-    public function register(Request $request): string|bool
+    public function register(RegisterUser $request): JsonResponse
     {
-        if ($response = $this->userService->register($request->all())) {
-            return json_encode(['status' => true, 'data' => $response]);
+        $params = $request->only(['email', 'password', 'name']);
+        if ($response = $this->userService->register($params)) {
+            return $this->responseSuccess($response);
         }
-        return json_encode(['status' => false]);
+        return $this->responseFailed();
     }
 }
