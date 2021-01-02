@@ -55,7 +55,7 @@ Client ID: 2
 Client secret: nLWw6zw05JDywE5p1neKgT7zruE2foDj4D4MFn1W
 ```
 
-## Guzzle
+## Guzzle（現状使ってない）
 ```
 $ composer require guzzlehttp/guzzle
 ```
