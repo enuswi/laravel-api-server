@@ -32,6 +32,9 @@ use Illuminate\Http\Response;
  */
 abstract class AbstractApiController extends Controller
 {
+    const STATUS_TYPE_SUCCESS   = 'success';
+    const STATUS_TYPE_FAILED    = 'failed';
+
     /**
      * @param int $statusCode
      * @param string $statusType
@@ -40,7 +43,7 @@ abstract class AbstractApiController extends Controller
      */
     protected function responseSuccess(
         int $statusCode = Response::HTTP_OK,
-        string $statusType = 'success',
+        string $statusType = self::STATUS_TYPE_SUCCESS,
         array|string $data = null
     ): JsonResponse
     {
@@ -55,7 +58,7 @@ abstract class AbstractApiController extends Controller
      */
     protected function responseFailed(
         int $statusCode = Response::HTTP_BAD_REQUEST,
-        string $statusType = 'failed',
+        string $statusType = self::STATUS_TYPE_FAILED,
         array|string $data = null
     ): JsonResponse
     {
