@@ -7,6 +7,10 @@ use App\Services\UserService;
 use App\Http\Requests\RegisterUser;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Api
+ */
 class UserController extends AbstractApiController
 {
     /**
@@ -22,14 +26,9 @@ class UserController extends AbstractApiController
      * @param RegisterUser $request
      * @return JsonResponse
      * @OA\Post(
-     *   path="/api/v1/register",
-     *   operationId="register",
-     *   tags={"User"},
-     *   summary="ユーザー登録API",
-     *   description="",
+     *   path="/api/v1/register", operationId="register", tags={"User"}, summary="ユーザー登録API", description="",
      *   @OA\RequestBody(
-     *     required=true,
-     *     description="",
+     *     required=true, description="",
      *     @OA\JsonContent(
      *       required={"name","email","password","password_confirmation"},
      *       @OA\Property(property="name", type="string", example="test_user"),
@@ -39,41 +38,25 @@ class UserController extends AbstractApiController
      *     )
      *   ),
      *   @OA\Response(
-     *     response=200,
-     *     description="成功",
+     *     response=200, description="成功",
      *     @OA\JsonContent(
      *       type="object",
      *       @OA\Property(
-     *         property="status",
-     *         type="integer",
-     *         description="ステータス",
-     *         example="200",
+     *         property="status", type="object",
+     *         ref="#/components/schemas/success_response_status_200"
      *       ),
      *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         description="メッセージ",
-     *         example="success"
+     *         property="response", type="object",
+     *         @OA\Property(property="name", type="string", example="test_user"),
+     *         @OA\Property(property="email", type="string", example="test@test.test"),
      *       )
      *     )
      *   ),
      *   @OA\Response(
-     *     response=400,
-     *     description="失敗",
+     *     response=400, description="schema",
      *     @OA\JsonContent(
      *       type="object",
-     *       @OA\Property(
-     *         property="status",
-     *         type="integer",
-     *         description="ステータス",
-     *         example="400",
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         description="メッセージ",
-     *         example="failed"
-     *       )
+     *       ref="#/components/schemas/failed_response_400"
      *     )
      *   )
      * )
@@ -91,14 +74,9 @@ class UserController extends AbstractApiController
      * @param LoginUser $request
      * @return JsonResponse
      * @OA\Post(
-     *   path="/api/v1/login",
-     *   operationId="login",
-     *   tags={"User"},
-     *   summary="ログインAPI",
-     *   description="",
+     *   path="/api/v1/login", operationId="login", tags={"User"}, summary="ログインAPI", description="",
      *   @OA\RequestBody(
-     *     required=true,
-     *     description="",
+     *     required=true, description="",
      *     @OA\JsonContent(
      *       required={"email","password"},
      *       @OA\Property(property="email", type="string", format="email", example="test@test.test"),
@@ -106,41 +84,26 @@ class UserController extends AbstractApiController
      *     )
      *   ),
      *   @OA\Response(
-     *     response=200,
-     *     description="成功",
+     *     response=200, description="成功",
      *     @OA\JsonContent(
      *       type="object",
      *       @OA\Property(
-     *         property="status",
-     *         type="integer",
-     *         description="ステータス",
-     *         example="200",
+     *         property="status", type="object",
+     *         ref="#/components/schemas/success_response_status_200",
      *       ),
      *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         description="メッセージ",
-     *         example="success"
+     *         property="response", type="object",
+     *         @OA\Property(property="name", type="string", example="test_user"),
+     *         @OA\Property(property="email", type="string", example="test@test.test"),
+     *         @OA\Property(property="access_token", type="string", example="xxxxxxxxxxxxxxx"),
      *       )
      *     )
      *   ),
      *   @OA\Response(
-     *     response=400,
-     *     description="失敗",
+     *     response=400, description="失敗",
      *     @OA\JsonContent(
      *       type="object",
-     *       @OA\Property(
-     *         property="status",
-     *         type="integer",
-     *         description="ステータス",
-     *         example="400",
-     *       ),
-     *       @OA\Property(
-     *         property="message",
-     *         type="string",
-     *         description="メッセージ",
-     *         example="failed"
-     *       )
+     *       ref="#/components/schemas/failed_response_400"
      *     )
      *   )
      * )

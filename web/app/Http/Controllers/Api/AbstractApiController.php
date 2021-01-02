@@ -5,6 +5,31 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
+/**
+ * Class AbstractApiController
+ * @package App\Http\Controllers\Api
+ *
+ * @OA\Schema(
+ *     schema="success_response_status_200",
+ *     @OA\Property(
+ *          property="status", type="object",
+ *          @OA\Property(property="code", type="integer", example=200),
+ *          @OA\Property(property="type", type="string", example="success"),
+ *     )
+ * )
+ *
+ * @OA\Schema(
+ *     schema="failed_response_400",
+ *     @OA\Property(
+ *          property="status", type="object",
+ *          @OA\Property(property="code", type="integer", example=400),
+ *          @OA\Property(property="type", type="string", example="failed"),
+ *     ),
+ *     @OA\Property(
+ *          property="response", type="object",
+ *     )
+ * )
+ */
 abstract class AbstractApiController extends Controller
 {
     /**
